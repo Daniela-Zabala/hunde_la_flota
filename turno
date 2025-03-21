@@ -1,0 +1,18 @@
+
+# En esta Pantalla mostrará las instrucciones del jurgo
+
+
+def mostrar_instrucciones():
+    """Muestra las instrucciones del juego."""
+    print("""
+    *** BIENVENIDO A HUNDIR LA FLOTA TEAM 5 ***
+          
+    - Cada jugador tiene un tablero de 10x10.
+    - Los barcos se colocan aleatoriamente en el tablero.
+    - Los jugadores se turnan para disparar a una coordenada (fila, columna).
+    - Un impacto se marca en el tablero del oponente.
+    - El objetivo es hundir todos los barcos del rival.
+    - ¡Buena suerte, capitán!
+    """)
+
+print(mostrar_instrucciones)
