@@ -1,6 +1,6 @@
 # Titulo del juego:
 
-introduccion= "\nBiennvenid@ a Hundir la Flota Team 5"
+introduccion= "\nBienvenid@ a Hundir la Flota Team 5\n"
 
 # Tablero:
 
@@ -66,7 +66,8 @@ def mostrar_instrucciones():
         Impacto en Agua -> =
         Barco hundido -> O
     - El objetivo es hundir todos los barcos del rival.
-    - En este Caso el rival será CPU
+    - En este caso el rival será CPU
+    - Cuando quieras abandaonar la partida tan sólo escribe 'salir'
     - ¡Buena suerte!
     """)
 
@@ -272,6 +273,7 @@ import os
 import random
 
 while True:
+    print(introduccion)
     eleccion = menu_principal()
 
     if eleccion == 1:
