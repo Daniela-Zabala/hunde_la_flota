@@ -1,11 +1,12 @@
 # Titulo del juego:
 
-introduccion= "\nBiennvenid@ a Hundir la Flota Team 5"
+introduccion= "\nBienvenid@ a Hundir la Flota Team 5\n"
 
 # Tablero:
 
-letras = ['A','B','D','E','F','G','H','I','J','K','L','M','N','Ñ','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+letras = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','Ñ','O','P','Q','R','S','T','U','V','W','X','Y','Z']
 estilo_tablero = {'punto':' · ', 'agua':' = ', 'barco':' O ','tocado':' X '}
+barcos= [1, 1, 1, 1, 2, 2, 2, 3, 3, 4]
 
 # Jugadores:
 

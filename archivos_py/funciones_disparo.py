@@ -1,21 +1,24 @@
+# Limpiar pantalla
+
 def clear(): # Limpiar pantalla
     if os.name == "posix":
         os.system ("clear")
     elif os.name == ("ce", "nt", "dos"):
         os.system ("cls")
 
-## FUNCIONES DE DISPARO ##
+# Funciones de disparo
 
 def recibir_disparo(tablero, coordenada):
     if tablero[coordenada] == estilo_tablero['barco']:
         tablero[coordenada] = estilo_tablero['tocado']
+        input("¡¡TOCADO!!.\n(Presiona 'Enter' para continuar")
         return True
     elif tablero[coordenada] == estilo_tablero['tocado']:
-        print("Ya has disparado aquí")
+        input("Almirante, ¿está usted ebrio? Ya ha disparado aquí.\n(Presiona 'Enter' para continuar")
         return False
     else:
         tablero[coordenada] = estilo_tablero['agua']
-        print("Agua")
+        input("Agua.\n(Presiona 'Enter' para continuar")
         return False
 
 def disparo_coordenadas(tablero, coordenada):    
@@ -32,19 +35,19 @@ def disparo_coordenadas(tablero, coordenada):
 
 def disparo_random(tablero):
     coordenada = (np.random.randint(0,len(tablero)-1),np.random.randint(0,len(tablero)-1))
-    while tablero[coordenada] == 'X' or tablero[coordenada] == '~':
+    while tablero[coordenada] == estilo_tablero["tocado"] or tablero[coordenada] == estilo_tablero["agua"]:
         coordenada = (np.random.randint(0,len(tablero)-1),np.random.randint(0,len(tablero)-1))
     recibir_disparo(tablero,coordenada)
 
-## FUNCION DE JUEGO ##
+# Función de juego 
 
-def turno_batalla():
+def turno_batalla(jugador, cpu):
     duo = [jugador,cpu]
 
     while True:
         atacante, enemigo = duo[0], duo[1]
 
-        if atacante.name == 'vision':
+        if atacante.name == 'vision' or atacante.name == 'Vision':
             print(f'Tablero {cpu.name}')
             enemigo.activar_radar(jugador.flota)
             enemigo.mostrar_tablero()
@@ -56,7 +59,7 @@ def turno_batalla():
             
             coordenada = input('Introduce coordenada de disparo: ')
             disparo = disparo_coordenadas(enemigo, coordenada)
-            if coordenada == 'salir':
+            if coordenada == 'salir' or coordenada == "SALIR" or coordenada == "Salir":
                 break
             while disparo == False:
                 coordenada = input('Coordenadas incorrectas. Vuelve a intentarlo: ')
@@ -76,6 +79,7 @@ def turno_batalla():
             duo.reverse()
             continue
     
-        clear()    # Limpiamos la pantalla (no funciona en notebooks)
+        clear
+        ()    # Limpiamos la pantalla (no funciona en notebooks)
     
     return 'salida'
