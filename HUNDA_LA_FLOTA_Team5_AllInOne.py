@@ -48,7 +48,7 @@ class Jugador:
 
 # Menú principal
 def menu_principal():
-    menu = 'Selecciona algo:\n\t 1. Empezar a jugar\n\t 2. Créditos\n\t 3. Salir\n'
+    menu = 'Selecciona algo:\n\t 1. Empezar a jugar\n\t 2. Juego rápido\n\t 3. Salir\n'
     eleccion = input(menu)
 
     while eleccion.isnumeric() != True or int(eleccion) > 4 or int(eleccion) <0:
@@ -107,25 +107,27 @@ def colocar_barco(tamaño, jugador):
         _colocar_barco_cpu(tamaño, jugador.flota)
         
 def _colocar_barco_jugador(tamaño, jugador):
-        """Función dedicada a colocar barcos para el jugador humano"""
-        print(f"Colocando barco de tamaño {tamaño}")
-        while True:
-            try:
-                fila, columna = _obtener_coordenadas_jugador(tamaño, jugador.flota)
-                if fila == 'salida':
-                    break
-                direccion = _obtener_direccion_jugador()
+    """Función dedicada a colocar barcos para el jugador humano"""
+    print(f"Colocando barco de tamaño {tamaño}")
+    while True:
+        try:
+            fila, columna = _obtener_coordenadas_jugador(tamaño, jugador.flota)
+            if fila == 'salida':
+                return 'salida'  # Solo devuelve 'salida' si el usuario quiere salir
                 
-                if not _posicion_valida(fila, columna, direccion, tamaño, jugador.flota):
-                    print("Posición no válida (fuera del tablero o superposición). Intenta de nuevo.")
-                    continue
+            direccion = _obtener_direccion_jugador()
+            
+            if not _posicion_valida(fila, columna, direccion, tamaño, jugador.flota):
+                print("Posición no válida (fuera del tablero o superposición). Intenta de nuevo.")
+                continue
 
-                _colocar_barco_en_tablero(fila, columna, direccion, tamaño, jugador.flota)
-                break
+            _colocar_barco_en_tablero(fila, columna, direccion, tamaño, jugador.flota)
+            break  # Sale del bucle cuando el barco se coloca correctamente
 
-            except (ValueError, IndexError):
-                print("Coordenada no válida. Intenta de nuevo.")
-        return 'salida'
+        except (ValueError, IndexError):
+            print("Coordenada no válida. Intenta de nuevo.")
+    
+    return None  # No devuelve 'salida' a menos que el usuario quiera salir
 
 def _obtener_coordenadas_jugador(tamaño, tablero):
         """Obtiene y valida las coordenadas del jugador"""
@@ -151,38 +153,40 @@ def _obtener_direccion_jugador():
             raise ValueError("Dirección no válida")
         return direccion
 
-def _posicion_valida( fila, columna, direccion, tamaño, tablero):
-        """Verifica si la posición es válida (sin salirse del tablero ni superponerse)."""
-        if direccion == 'H':
-            if columna + tamaño > len(tablero):
-                return False
-            return all(tablero[fila][columna + i] == ' · ' for i in range(tamaño))
-        else:  
-            if fila + tamaño > len(tablero):
-                return False
-            return all(tablero[fila + i][columna] == ' · ' for i in range(tamaño))
+def _posicion_valida(fila, columna, direccion, tamaño, tablero):
+    """Verifica si la posición es válida (sin salirse del tablero ni superponerse)."""
+    if direccion == 'H':
+        if columna + tamaño > len(tablero[0]):
+            return False
+        return all(tablero[fila][columna + i] == estilo_tablero['punto'] for i in range(tamaño))
+    else:
+        if fila + tamaño > len(tablero):
+            return False
+        return all(tablero[fila + i][columna] == estilo_tablero['punto'] for i in range(tamaño))
 
-def _colocar_barco_en_tablero( fila, columna, direccion, tamaño, tablero):
-        """Coloca físicamente el barco en el tablero"""
-        if direccion == 'H':
-            for i in range(tamaño):
-                tablero[fila][columna + i] = ' O '
-        else: 
-            for i in range(tamaño):
-                tablero[fila + i][columna] = ' O '
-        #barcos.append((fila, columna, direccion, tamaño))
+def _colocar_barco_en_tablero(fila, columna, direccion, tamaño, tablero):
+    """Coloca físicamente el barco en el tablero"""
+    if direccion == 'H':
+        # Coloca horizontalmente (mismo fila, columnas consecutivas)
+        for i in range(tamaño):
+            if columna + i < len(tablero[0]):  # Verifica límites del tablero
+                tablero[fila][columna + i] = estilo_tablero['barco']
+    else:
+        # Coloca verticalmente (misma columna, filas consecutivas)
+        for i in range(tamaño):
+            if fila + i < len(tablero):  # Verifica límites del tablero
+                tablero[fila + i][columna] = estilo_tablero['barco']
 
-def _colocar_barco_cpu( tamaño, tablero):
-        """Función dedicada a colocar barcos para la CPU"""
-        while True:
-            fila = random.randint(0, len(tablero) - 1)
-            columna = random.randint(0, len(tablero) - 1)
-            direccion = random.choice(['H', 'V'])
+def _colocar_barco_cpu(tamaño, tablero):
+    """Función dedicada a colocar barcos para la CPU"""
+    while True:
+        fila = random.randint(0, len(tablero) - 1)
+        columna = random.randint(0, len(tablero) - 1)
+        direccion = random.choice(['H', 'V'])
 
-            if _posicion_valida(fila, columna, direccion, tamaño, jugador.flota):
-                _colocar_barco_en_tablero(fila, columna, direccion, tamaño, jugador.flota)
-                break
-
+        if _posicion_valida(fila, columna, direccion, tamaño, tablero): 
+            _colocar_barco_en_tablero(fila, columna, direccion, tamaño, tablero) 
+            break
 # Funciones de disparo
 
 def recibir_disparo(tablero, coordenada):
@@ -218,13 +222,13 @@ def disparo_random(tablero):
 
 # Función de juego 
 
-def turno_batalla():
+def turno_batalla(jugador, cpu):
     duo = [jugador,cpu]
 
     while True:
         atacante, enemigo = duo[0], duo[1]
 
-        if atacante.name == 'vision':
+        if atacante.name == 'vision' or atacante.name == 'Vision':
             print(f'Tablero {cpu.name}')
             enemigo.activar_radar(jugador.flota)
             enemigo.mostrar_tablero()
@@ -272,10 +276,9 @@ while True:
 
     if eleccion == 1:
         nombre_jugador = inicio_juego()
-
-        jugador = Jugador(nombre_jugador)
+        usuario = Jugador(nombre_jugador)
         cpu = Jugador('CPU',tipo='cpu')
-        for i in [cpu, jugador]:
+        for i in [cpu, usuario]:
             for tamaño in barcos:
                 colocar_flota = colocar_barco(tamaño= tamaño, jugador=i)
                 if i.tipo == 'jugador':
@@ -285,16 +288,19 @@ while True:
                     i.mostrar_tablero()
         if colocar_flota == 'salida':
             continue
-        
-        input(f"Almirante {jugador.name} su flota está lista.\n(Presiona 'Enter' para continuar)")
-        
-        batalla = turno_batalla()
-        if batalla == 'salida':
-            continue
-        
     elif eleccion == 2:
-        print('creditos')
+        nombre_jugador = inicio_juego()
+        usuario = Jugador(nombre_jugador)
+        cpu = Jugador('CPU',tipo='cpu')
+        for i in [cpu, usuario]:
+            for tamaño in barcos:
+                _colocar_barco_cpu(tamaño = tamaño, tablero = i.flota)
     elif eleccion == 3:
         break
+
+    input(f"Almirante {jugador.name} su flota está lista.\n(Presiona 'Enter' para continuar)")
+    batalla = turno_batalla(usuario, cpu)
+    if batalla == 'salida':
+        continue
 
 quit()
