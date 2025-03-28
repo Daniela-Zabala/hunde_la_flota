@@ -298,7 +298,7 @@ while True:
     elif eleccion == 3:
         break
 
-    input(f"Almirante {jugador.name} su flota está lista.\n(Presiona 'Enter' para continuar)")
+    input(f"Almirante {usuario.name} su flota está lista.\n(Presiona 'Enter' para continuar)")
     batalla = turno_batalla(usuario, cpu)
     if batalla == 'salida':
         continue
