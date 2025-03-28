@@ -2,6 +2,11 @@ import numpy as np
 import os
 import random
 
+from .variables import *
+from .funciones_menu import *
+from .funciones_colocar_barcos import *
+from .funciones_disparo import *
+
 while True:
     print(introduccion)
     eleccion = menu_principal()
