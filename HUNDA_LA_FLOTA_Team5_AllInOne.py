@@ -48,7 +48,7 @@ class Jugador:
 
 # Menú principal
 def menu_principal():
-    menu = 'Selecciona algo:\n\t 1. Empezar a jugar\n\t 2. Juego rápido\n\t 3. Salir\n'
+    menu = '\n\t 1. Empezar a jugar\n\t 2. Juego rápido\n\t 3. Salir\n'
     eleccion = input(menu)
 
     while eleccion.isnumeric() != True or int(eleccion) > 4 or int(eleccion) <0:
@@ -66,8 +66,8 @@ def mostrar_instrucciones():
         Impacto en Agua -> =
         Barco hundido -> O
     - El objetivo es hundir todos los barcos del rival.
-    - En este caso el rival será CPU
-    - Cuando quieras abandaonar la partida tan sólo escribe 'salir'
+    - En este caso el rival será CPU.
+    - Cuando quieras abandonar la partida tan sólo escribe 'salir'.
     - ¡Buena suerte!
     """)
 
