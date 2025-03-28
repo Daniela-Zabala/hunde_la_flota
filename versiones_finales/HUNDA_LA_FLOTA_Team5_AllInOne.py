@@ -261,8 +261,7 @@ def turno_batalla(jugador, cpu):
             duo.reverse()
             continue
     
-        clear
-        ()    # Limpiamos la pantalla (no funciona en notebooks)
+        clear()    # Limpiamos la pantalla (no funciona en notebooks)
     
     return 'salida'
 
